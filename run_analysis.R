@@ -17,7 +17,7 @@ joinSubject <- rbind(trainSubject, testSubject)
 # Step 2 : Extracts only the measurements on the mean and standard deviation for each measurement. 
 features <- read.table("./data/features.txt")
 meanStdIndices <- grep("mean\\(\\)|std\\(\\)", features[, 2]) # Extract column headers with "mean()" or "std()" 
-joinData <- joinData[,meanStdIndices]
+joinData <- joinData[,meanStdIndices] #Subsetting columns from joinData to give new joinData
 
 # Step 3: Uses descriptive activity names to name the activities in the data set
 activity <- read.table("./data/activity_labels.txt")
@@ -40,5 +40,5 @@ write.table(cleanedData, "clean_data_frm_Step4.txt")
 
 # Step 5: From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 dataCol <- names(cleanedData)[3:68] # Selecting the cols for averaging
-res <- ddply(cleanedData,.(subject,activity),function(x) colMeans(x[dataCol])) # Using ddplyr to group by subject & activity
+res <- ddply(cleanedData,.(subject,activity),function(x) colMeans(x[dataCol])) # Using ddply from dplyr to group by subject & activity, and apply colmean
 write.table(res, file="result_frm_Step5.txt", row.names=FALSE)
